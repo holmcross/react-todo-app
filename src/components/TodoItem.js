@@ -1,23 +1,39 @@
 import React from "react"
+// the styles object can be named anything
 import styles from "./TodoItem.module.css"
 
 class TodoItem extends React.Component {
 
+  handleEditing = () => {
+    console.log("edit mode activated")
+  }
+
   //the this.props.todo.id arguement is sent back to TodoContainer to identify which component was
   //  clicked
   render(){
+
+    const completedStyle = {
+      fontStyle: "italic",
+      color: "#595959",
+      opacity: 0.4,
+      textDecoration: "line-through",
+    }
+    //this deconstructs the object to get these values
+    const { completed, id, title } = this.props.todo
+
     return (
       <li className={styles.item}>
-        <input
-          type="checkbox"
-          className={styles.checkbox}
-          checked={this.props.todo.completed}
-          onChange={() => this.props.handleChangeProps(this.props.todo.id)}
-        />
-        <button onClick={() => this.props.deleteTodoProps(this.props.todo.id)}>
-          Delete
-        </button>
-        {this.props.todo.title}
+        <div onDoubleClick={this.handleEditing}>
+          <input
+            type="checkbox"
+            className={styles.checkbox}
+            checked={completed}
+            onChange={() => this.props.handleChangeProps(id)}
+          />
+          <button onClick={() => this.props.deleteTodoProps(id)}>Delete</button>
+          <span style={completed ? completedStyle : null}>{title}</span>
+        </div>
+        <input type="text" className={styles.textInput} />
       </li>
     )
   }
