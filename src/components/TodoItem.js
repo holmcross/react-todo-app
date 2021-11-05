@@ -4,8 +4,14 @@ import styles from "./TodoItem.module.css"
 
 class TodoItem extends React.Component {
 
+  state = {
+    editing: false,
+  }
+
   handleEditing = () => {
-    console.log("edit mode activated")
+    this.setState({
+      editing: true,
+    })
   }
 
   //the this.props.todo.id arguement is sent back to TodoContainer to identify which component was
@@ -21,9 +27,19 @@ class TodoItem extends React.Component {
     //this deconstructs the object to get these values
     const { completed, id, title } = this.props.todo
 
+    let viewMode = {}
+    let editMode = {}
+
+    if (this.state.editing) {
+      viewMode.display = "none"
+    } else {
+      editMode.display = "none"
+    }
+
     return (
       <li className={styles.item}>
-        <div onDoubleClick={this.handleEditing}>
+        <div onDoubleClick={this.handleEditing}  style={viewMode}>
+
           <input
             type="checkbox"
             className={styles.checkbox}
@@ -32,8 +48,9 @@ class TodoItem extends React.Component {
           />
           <button onClick={() => this.props.deleteTodoProps(id)}>Delete</button>
           <span style={completed ? completedStyle : null}>{title}</span>
+          
         </div>
-        <input type="text" className={styles.textInput} />
+        <input type="text" className={styles.textInput} style={editMode} />
       </li>
     )
   }
