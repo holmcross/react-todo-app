@@ -14,6 +14,12 @@ class TodoItem extends React.Component {
     })
   }
 
+  handleUpdatedDone = event => {
+    if (event.key === "Enter") {
+      this.setState({ editing: false })
+    }
+  }
+
   //the this.props.todo.id arguement is sent back to TodoContainer to identify which component was
   //  clicked
   render(){
@@ -50,7 +56,16 @@ class TodoItem extends React.Component {
           <span style={completed ? completedStyle : null}>{title}</span>
           
         </div>
-        <input type="text" className={styles.textInput} style={editMode} />
+        <input
+          type="text"
+          style={editMode}
+          className={styles.textInput}
+          value={title}
+          onChange={e => {
+            this.props.setUpdate(e.target.value, id)
+          }}
+          onKeyDown={this.handleUpdatedDone}
+        />
       </li>
     )
   }
