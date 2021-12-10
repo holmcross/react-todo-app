@@ -8,6 +8,8 @@ class TodoItem extends React.Component {
     editing: false,
   }
 
+  
+
   handleEditing = () => {
     this.setState({
       editing: true,
